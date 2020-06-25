@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { ImageBackground, Text, View, TouchableHighlight } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import { Container, Content, Icon, Thumbnail } from 'native-base';
 import {StackActions} from '@react-navigation/routers';
 

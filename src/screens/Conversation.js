@@ -34,7 +34,6 @@ import {
 import {StackActions} from '@react-navigation/routers';
 import {NavigationActions} from '@react-navigation/compat';
 import Ripple from 'react-native-material-ripple';
-import AsyncStorage from '@react-native-community/async-storage'
 import {connect, useDispatch} from 'react-redux';
 
 function ConversationScreen ({route, navigation}) {

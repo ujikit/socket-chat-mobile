@@ -9,12 +9,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/es/integration/react';
 import {Root, Container, Content} from 'native-base';
-import codePush from 'react-native-code-push';
 
 // config
 import {store, persistor} from './src/states/store/store';
 // screens
-import SplashScreen from './src/screens/SplashScreen';
+import ListChat from './src/screens/ListChat';
 
 // configs
 import { MAIN_COLOR, MAIN_COLOR_SECOND } from './src/configs/Color'
@@ -33,10 +32,10 @@ function App() {
           <Root>
             <SafeAreaProvider>
               <NavigationContainer>
-                <Stack.Navigator initialRouteName="SplashScreen">
+                <Stack.Navigator initialRouteName="ListChat">
                   <Stack.Screen
-                    name="SplashScreen"
-                    component={SplashScreen}
+                    name="ListChat"
+                    component={ListChat}
                     options={{
                       title: 'Splash Screen',
                       headerShown: false
@@ -61,8 +60,4 @@ const styles = StyleSheet.create({
 // development
 console.disableYellowBox = true;
 
-const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME // ON_APP_START, ON_APP_RESUME, ON_APP_MANUAL
-}
-
-export default codePush(codePushOptions)(App);
+export default App;

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { ActivityIndicator, Text, FlatList, Image, StyleSheet, TextInput, TouchableHighlight, TouchableOpacity } from "react-native";
 import { Badge, Container, Content, View, Button, Fonts, Input, Header, Footer, FooterTab, Text as NBText, Icon } from 'native-base'
-import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from "react-redux";
 
 // configs

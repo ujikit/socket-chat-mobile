@@ -79,8 +79,6 @@ target 'SocketChat' do
 
   pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
 
-  pod 'CodePush', :path => '../node_modules/react-native-code-push'
-
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
   pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
