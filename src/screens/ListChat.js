@@ -9,28 +9,7 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import {
-  Body,
-  Button,
-  Container,
-  Form,
-  Icon,
-  Input,
-  Item,
-  Text,
-  View,
-  Header,
-  Content,
-  Tab,
-  Tabs,
-  Grid,
-  Col,
-  Left,
-  List,
-  ListItem,
-  Right,
-  Thumbnail,
-} from 'native-base';
+import { Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
 import {StackActions} from '@react-navigation/routers';
 import {NavigationActions} from '@react-navigation/compat';
 import Ripple from 'react-native-material-ripple';
@@ -39,26 +18,30 @@ import {connect, useDispatch} from 'react-redux';
 function ListChatScreen ({route, navigation}) {
   const dispatch = useDispatch()
 
-  let [password_visible, setPasswordVisible] = useState(false);
-  let [is_loading_register, setIsLoadingRegister] = useState(false);
-  let [is_error_password_confirmation, setIsErrorPasswordConfirmation] = useState('');
-  let [is_error_message_password_confirmation, setIsErrorMessagePasswordConfirmation] = useState('');
-
-  let [new_name, setNewName] = useState('');
-  let [new_phone_number, setNewPhoneNumber] = useState('');
-  let [new_address, setNewAddress] = useState('');
-  let [new_email, setNewEmail] = useState('');
-  let [new_password, setNewPassword] = useState('');
-  let [new_password_confirmation, setNewPasswordConfirmation] = useState('');
-
   useEffect(() => {
+
   }, [])
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <Text>Tes</Text>
-    </ScrollView>
-  )
+    <Container>
+      <Content>
+        <List>
+          <ListItem avatar onPress={() => navigation.navigate('Conversation')}>
+            <Left>
+              <Thumbnail source={require('../../assets/images/user.png')} />
+            </Left>
+            <Body>
+              <Text>Kumar Pratik</Text>
+              <Text note>Doing what you like will always keep you happy . .</Text>
+            </Body>
+            <Right>
+              <Text note>3:43 pm</Text>
+            </Right>
+          </ListItem>
+        </List>
+      </Content>
+    </Container>
+  );
 }
 
 const styles = StyleSheet.create({});

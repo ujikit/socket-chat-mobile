@@ -14,6 +14,7 @@ import {Root, Container, Content} from 'native-base';
 import {store, persistor} from './src/states/store/store';
 // screens
 import ListChat from './src/screens/ListChat';
+import Conversation from './src/screens/Conversation';
 
 // configs
 import { MAIN_COLOR, MAIN_COLOR_SECOND } from './src/configs/Color'
@@ -37,8 +38,14 @@ function App() {
                     name="ListChat"
                     component={ListChat}
                     options={{
-                      title: 'Splash Screen',
-                      headerShown: false
+                      title: 'List Chat'
+                    }}
+                  />
+                  <Stack.Screen
+                    name="Conversation"
+                    component={Conversation}
+                    options={{
+                      title: 'Conversation'
                     }}
                   />
                 </Stack.Navigator>

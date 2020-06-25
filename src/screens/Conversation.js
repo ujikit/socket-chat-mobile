@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {
   ActivityIndicator,
   ScrollView,
@@ -35,29 +35,39 @@ import {StackActions} from '@react-navigation/routers';
 import {NavigationActions} from '@react-navigation/compat';
 import Ripple from 'react-native-material-ripple';
 import {connect, useDispatch} from 'react-redux';
+import { GiftedChat } from 'react-native-gifted-chat'
 
 function ConversationScreen ({route, navigation}) {
   const dispatch = useDispatch()
 
-  let [password_visible, setPasswordVisible] = useState(false);
-  let [is_loading_register, setIsLoadingRegister] = useState(false);
-  let [is_error_password_confirmation, setIsErrorPasswordConfirmation] = useState('');
-  let [is_error_message_password_confirmation, setIsErrorMessagePasswordConfirmation] = useState('');
-
-  let [new_name, setNewName] = useState('');
-  let [new_phone_number, setNewPhoneNumber] = useState('');
-  let [new_address, setNewAddress] = useState('');
-  let [new_email, setNewEmail] = useState('');
-  let [new_password, setNewPassword] = useState('');
-  let [new_password_confirmation, setNewPasswordConfirmation] = useState('');
+  let [messages, setMessages] = useState([
+    {
+      id: 1,
+      text: 'Hello developer',
+      createdAt: new Date(),
+      user: {
+        id: 2,
+        name: 'React Native',
+        avatar: 'https://placeimg.com/140/140/any',
+      },
+    }
+  ]);
 
   useEffect(() => {
   }, [])
 
-  return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: MAIN_COLOR}}>
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+  }, [])
 
-    </ScrollView>
+  return (
+    <GiftedChat
+      messages={messages}
+      onSend={messages => onSend(messages)}
+      user={{
+        _id: 1,
+      }}
+    />
   )
 }
 
