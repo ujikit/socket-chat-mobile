@@ -1,0 +1,22 @@
+module.exports = {
+	MAIN_COLOR: `rgb(36, 118, 196)`,
+	MAIN_COLOR_SECOND: `rgb(132, 206, 251)`,
+	LIGHT_MAIN_COLOR: `rgb(255, 255, 255)`,
+	BLACK_FONT: `rgba(44, 44, 44, 255)`,
+	WHITE_FONT: `rgb(255, 255, 255)`,
+
+	ITEM_FONT: `rgba(255, 255, 255, 1)`,
+	SUB_ITEM_FONT: `rgba(108, 108, 108, 1)`,
+
+	TAB_NAVIGATION_MAIN_COLOR: `rgb(64, 64, 64)`,
+	LINE_COLOR: `rgb(162, 162, 162)`,
+	BACKGROUND_LIST_DATA: `#eee`,
+
+	// Color
+	SUCCESS: `rgb(76, 167, 70)`,
+	SUCCESS_LIGHT_TRANSPARENT: `rgba(76, 167, 70, 0.85)`,
+	DANGER: `rgba(221, 53, 68, 0.86)`,
+	DANGER_LIGHT_TRANSPARENT: `rgba(221, 53, 68, 0.70)`,
+	SECONDARY: `rgb(108, 117, 125)`,
+	SECONDARY_LIGHT_TRANSPARENT: `rgba(108, 117, 125, 0.85)`,
+}
