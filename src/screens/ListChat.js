@@ -47,5 +47,5 @@ function ListChatScreen ({route, navigation}) {
 const styles = StyleSheet.create({});
 
 export default connect(state => ({
-  choose_merchant_category_reducer: state.merchant_category.choose_merchant_category_reducer,
+  is_authenticated: state.global_all.is_authenticated,
 }))(ListChatScreen);

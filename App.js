@@ -1,5 +1,3 @@
-// In App.js in a new project
-
 import * as React from 'react';
 import { View, StatusBar, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,9 +14,6 @@ import {store, persistor} from './src/states/store/store';
 import ListChat from './src/screens/ListChat';
 import Conversation from './src/screens/Conversation';
 
-// configs
-import { MAIN_COLOR, MAIN_COLOR_SECOND } from './src/configs/Color'
-
 const Stack = createStackNavigator();
 
 function App() {
@@ -27,7 +22,6 @@ function App() {
       <View style={styles.container}>
         <StatusBar
           barStyle="dark-content"
-          backgroundColor={MAIN_COLOR_SECOND}
         />
         <PersistGate loading={null} persistor={persistor}>
           <Root>
