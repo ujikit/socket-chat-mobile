@@ -33,7 +33,6 @@ import {
 } from 'native-base';
 import {StackActions} from '@react-navigation/routers';
 import {NavigationActions} from '@react-navigation/compat';
-import Ripple from 'react-native-material-ripple';
 import {connect, useDispatch} from 'react-redux';
 import { GiftedChat } from 'react-native-gifted-chat'
 
