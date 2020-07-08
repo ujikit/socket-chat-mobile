@@ -1,15 +1,15 @@
 const initialState = {
-  is_authenticated: false,
+  me_reducer: false,
 }
 
 const global_all = (state = initialState, action) => {
   console.log(action.type)
   console.log(action.payload)
   switch(action.type) {
-    case 'SET_IS_AUTHENTICATED':
+    case 'ME':
     return {
       ...state,
-      is_authenticated: action.payload
+      me_reducer: action.payload
     }
     default:
       return state;

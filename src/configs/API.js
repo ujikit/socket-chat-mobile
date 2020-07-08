@@ -25,6 +25,17 @@ const fetch = async (url, options = {
 }
 
 export default {
+  login: (body) => {
+    console.log('login_parameter: ', body);
+    return fetch('/login', {
+      method: 'POST',
+      head: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: body
+    })
+  },
   users: () => {
     console.log('users_parameter: ');
     return fetch('/users', {

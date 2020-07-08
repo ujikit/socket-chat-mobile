@@ -11,6 +11,7 @@ import {Root, Container, Content} from 'native-base';
 // config
 import {store, persistor} from './src/states/store/store';
 // screens
+import Login from './src/screens/Login';
 import ListChat from './src/screens/ListChat';
 import Conversation from './src/screens/Conversation';
 
@@ -27,7 +28,14 @@ function App() {
           <Root>
             <SafeAreaProvider>
               <NavigationContainer>
-                <Stack.Navigator initialRouteName="ListChat">
+                <Stack.Navigator initialRouteName="Login">
+                  <Stack.Screen
+                    name="Login"
+                    component={Login}
+                    options={{
+                      title: 'Login'
+                    }}
+                  />
                   <Stack.Screen
                     name="ListChat"
                     component={ListChat}
