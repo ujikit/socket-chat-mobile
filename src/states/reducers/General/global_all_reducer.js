@@ -1,5 +1,9 @@
 const initialState = {
-  me_reducer: false,
+  me_reducer: {
+    id: null,
+    username: null,
+    id_socket: null,
+  },
 }
 
 const global_all = (state = initialState, action) => {

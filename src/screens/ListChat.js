@@ -9,9 +9,9 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import { Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
+import { Container, Fab, Header, Icon, Content, List, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
 import {StackActions} from '@react-navigation/routers';
-import {NavigationActions} from '@react-navigation/compat';
+import AsyncStorage from '@react-native-community/async-storage'
 import {connect, useDispatch} from 'react-redux';
 
 // configs
@@ -38,30 +38,39 @@ function ListChatScreen ({route, navigation}) {
       });
   }
 
+  _handleLogout = async () => {
+    await AsyncStorage.removeItem('user_data');
+    navigation.dispatch(StackActions.replace('Login'));
+  }
+
   return (
     <Container>
-      <Content>
-        <List>
-          <FlatList
-            data={user_data}
-            keyExtractor = { (item, index) => index.toString() }
-            renderItem={({ item }) => (
-              <ListItem avatar onPress={() => navigation.navigate('Conversation')}>
-                <Left>
-                  <Thumbnail source={require('../../assets/images/user.png')} />
-                </Left>
-                <Body>
-                  <Text>{item.username}</Text>
-                  <Text note>Doing what you like will always keep you happy . .</Text>
-                </Body>
-                <Right>
-                  <Text note>3:43 pm</Text>
-                </Right>
-              </ListItem>
-            )}
+      <List>
+        <FlatList
+          data={user_data}
+          keyExtractor = { (item, index) => index.toString() }
+          renderItem={({ item, index }) => (
+            <ListItem key={index} avatar onPress={() => navigation.navigate('Conversation')}>
+              <Left>
+                <Thumbnail source={require('../../assets/images/user.png')} />
+              </Left>
+              <Body>
+                <Text>{item.username}</Text>
+                <Text note>Doing what you like will always keep you happy . .</Text>
+              </Body>
+              <Right>
+                <Text note>3:43 pm</Text>
+              </Right>
+            </ListItem>
+          )}
           />
-        </List>
-      </Content>
+      </List>
+      <Fab
+        style={{ backgroundColor: 'rgb(111, 176, 77)' }}
+        position="bottomRight"
+        onPress={() => _handleLogout()}>
+        <Icon name="exit-run" type="MaterialCommunityIcons" style={{ fontSize: 30, color: 'white' }} />
+      </Fab>
     </Container>
   );
 }

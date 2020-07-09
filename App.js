@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { View, StatusBar, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { AppState, View, StatusBar, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DrawerActions } from '@react-navigation/native';
@@ -8,16 +8,52 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/es/integration/react';
 import {Root, Container, Content} from 'native-base';
 
-// config
+// configs
+import API from './src/configs/API'
 import {store, persistor} from './src/states/store/store';
 // screens
+import SplashScreen from './src/screens/SplashScreen';
 import Login from './src/screens/Login';
 import ListChat from './src/screens/ListChat';
 import Conversation from './src/screens/Conversation';
+// services
+import {socket} from './src/services/SocketIO';
 
 const Stack = createStackNavigator();
 
 function App() {
+
+  useEffect(() => {
+    AppState.addEventListener("change", _handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+    };
+  }, []);
+
+  const _handleAppStateChange = nextAppState => {
+
+    if (nextAppState === "active") {
+
+      let data = {
+        username: me_reducer.user_data.username,
+        id_socket: socket.id
+      }
+      API.set_id_socket_user(data)
+        .then(async response_login => {
+          console.log('login_success', response_login);
+
+          await AsyncStorage.setItem('user_data', await JSON.stringify(response_login.data));
+          dispatch(await meDispatch(response_login));
+        })
+        .catch(error => {
+          console.log('login_error', error);
+          console.log('login_error', error.response);
+        })
+
+    }
+  };
+
   return (
     <Provider store={store}>
       <View style={styles.container}>
@@ -28,7 +64,14 @@ function App() {
           <Root>
             <SafeAreaProvider>
               <NavigationContainer>
-                <Stack.Navigator initialRouteName="Login">
+                <Stack.Navigator initialRouteName="SplashScreen">
+                  <Stack.Screen
+                    name="SplashScreen"
+                    component={SplashScreen}
+                    options={{
+                      title: 'SplashScreen'
+                    }}
+                  />
                   <Stack.Screen
                     name="Login"
                     component={Login}

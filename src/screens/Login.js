@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import { Container } from 'native-base';
 import {StackActions} from '@react-navigation/routers';
-import {NavigationActions} from '@react-navigation/compat';
 import AsyncStorage from '@react-native-community/async-storage'
 import {connect, useDispatch} from 'react-redux';
 
@@ -19,7 +18,7 @@ import {meDispatch} from '../states/actions/General/global_all_action'
 function LoginScreen ({route, navigation}) {
   const dispatch = useDispatch()
 
-  let [username, setUsername] = useState('');
+  let [username, setUsername] = useState('ujikit');
 
   _handleLogin = () => {
     if (!username) { alert('Ini username terlebih dahulu') }
@@ -30,8 +29,10 @@ function LoginScreen ({route, navigation}) {
       .then(async response_login => {
         console.log('login_success', response_login);
 
-        await AsyncStorage.setItem('user_data', await JSON.stringify(response_login.data))
-        dispatch(await meDispatch(response_login));
+        if (response_login.code !== 200) return
+        await AsyncStorage.setItem('user_data', await JSON.stringify(response_login.data[0]))
+        dispatch(await meDispatch(response_login.data[0]));
+        return navigation.dispatch(StackActions.replace('ListChat'));
       })
       .catch(error => {
         console.log('login_error', error);

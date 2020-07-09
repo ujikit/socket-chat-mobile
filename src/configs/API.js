@@ -36,6 +36,17 @@ export default {
       body: body
     })
   },
+  set_id_socket_user: (body) => {
+    console.log('login_parameter: ', body);
+    return fetch('/set-id-socket-user', {
+      method: 'PUT',
+      head: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: body
+    })
+  },
   users: () => {
     console.log('users_parameter: ');
     return fetch('/users', {
