@@ -16,8 +16,9 @@ import SplashScreen from './src/screens/SplashScreen';
 import Login from './src/screens/Login';
 import ListChat from './src/screens/ListChat';
 import Conversation from './src/screens/Conversation';
+
 // services
-import {socket} from './src/services/SocketIO';
+import {UpdateIdSocketUserDB} from './src/services/UpdateIdSocketUserDB';
 
 const Stack = createStackNavigator();
 
@@ -31,26 +32,9 @@ function App() {
     };
   }, []);
 
-  const _handleAppStateChange = nextAppState => {
-
+  const _handleAppStateChange = (nextAppState) => {
     if (nextAppState === "active") {
-
-      let data = {
-        username: me_reducer.user_data.username,
-        id_socket: socket.id
-      }
-      API.set_id_socket_user(data)
-        .then(async response_login => {
-          console.log('login_success', response_login);
-
-          await AsyncStorage.setItem('user_data', await JSON.stringify(response_login.data));
-          dispatch(await meDispatch(response_login));
-        })
-        .catch(error => {
-          console.log('login_error', error);
-          console.log('login_error', error.response);
-        })
-
+      UpdateIdSocketUserDB();
     }
   };
 

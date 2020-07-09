@@ -16,6 +16,8 @@ import {StackActions} from '@react-navigation/routers';
 import {Button, Container, Content, Form, Header, Input} from 'native-base';
 import {connect} from 'react-redux';
 
+// services
+import {UpdateIdSocketUserDB} from '../services/UpdateIdSocketUserDB';
 // states
 import { meDispatch } from "../states/actions/General/global_all_action";
 
@@ -37,6 +39,7 @@ class SplashScreen extends Component<Props> {
   }
 
   async componentDidMount() {
+    UpdateIdSocketUserDB();
     await this.checkAuth();
   }
 
