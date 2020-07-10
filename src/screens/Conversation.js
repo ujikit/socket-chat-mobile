@@ -36,16 +36,16 @@ import {NavigationActions} from '@react-navigation/compat';
 import {connect, useDispatch} from 'react-redux';
 import { GiftedChat } from 'react-native-gifted-chat'
 
-function ConversationScreen ({route, navigation}) {
+function ConversationScreen ({route, navigation, me_reducer}) {
   const dispatch = useDispatch()
 
   let [messages, setMessages] = useState([
     {
-      id: 1,
+      _id: 1,
       text: 'Hello developer',
       createdAt: new Date(),
       user: {
-        id: 2,
+        _id: 2,
         name: 'React Native',
         avatar: 'https://placeimg.com/140/140/any',
       },
@@ -64,7 +64,7 @@ function ConversationScreen ({route, navigation}) {
       messages={messages}
       onSend={messages => onSend(messages)}
       user={{
-        _id: 1,
+        _id: me_reducer.id,
       }}
     />
   )
@@ -73,5 +73,5 @@ function ConversationScreen ({route, navigation}) {
 const styles = StyleSheet.create({});
 
 export default connect(state => ({
-  choose_merchant_category_reducer: state.merchant_category.choose_merchant_category_reducer,
+  me_reducer: state.global_all.me_reducer,
 }))(ConversationScreen);

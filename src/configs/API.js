@@ -57,4 +57,14 @@ export default {
       }
     })
   },
+  conversations: (body) => {
+    console.log('conversations_parameter: ', body);
+    return fetch(`/conversations/${body.username}`, {
+      method: 'GET',
+      head: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+  },
 }

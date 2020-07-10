@@ -18,7 +18,7 @@ import {meDispatch} from '../states/actions/General/global_all_action'
 function LoginScreen ({route, navigation}) {
   const dispatch = useDispatch()
 
-  let [username, setUsername] = useState('ujikit');
+  let [username, setUsername] = useState('');
 
   _handleLogin = () => {
     if (!username) { alert('Ini username terlebih dahulu') }

@@ -3,6 +3,7 @@ const initialState = {
     id: null,
     username: null,
     id_socket: null,
+    role: null,
   },
 }
 

@@ -20,21 +20,40 @@ import API from '../configs/API'
 function ListChatScreen ({route, navigation}) {
   const dispatch = useDispatch()
 
-  let [user_data, setUserData] = useState([]);
+  let [list_chat_data, setListChatData] = useState([]);
 
   useEffect(() => {
     _handleFetchUsersData();
   }, [])
 
-  _handleFetchUsersData = () => {
-    API.users()
+  _handleFetchUsersData = async () => {
+    let user_data = JSON.parse(await AsyncStorage.getItem('user_data'));
+
+    let body = {
+      username: user_data.username
+    }
+
+    API.conversations(body)
       .then(async response => {
-        console.log('get_users_success', response);
-        setUserData(response);
+        console.log('get_conversations_success', response);
+
+        setListChatData(() => {
+          let filteredArr1 = response.filter(item => {
+            return item.receiver_username !== user_data.username
+          });
+
+          let filteredArr2 = filteredArr1.filter((v,i,a) => a.findIndex(t => (t.receiver_username === v.receiver_username)) === i)
+
+          let chat = filteredArr2.sort(function (a, b) {
+            return a.time_message - b.time_message;
+          }).reverse()
+
+          return [...chat]
+        });
       })
       .catch(async error => {
-        console.log('get_users_error', error);
-        console.log('get_users_error', error.response);
+        console.log('get_conversations_error', error);
+        console.log('get_conversations_error', error.response);
       });
   }
 
@@ -47,7 +66,7 @@ function ListChatScreen ({route, navigation}) {
     <Container>
       <List>
         <FlatList
-          data={user_data}
+          data={list_chat_data}
           keyExtractor = { (item, index) => index.toString() }
           renderItem={({ item, index }) => (
             <ListItem key={index} avatar onPress={() => navigation.navigate('Conversation')}>
@@ -55,12 +74,9 @@ function ListChatScreen ({route, navigation}) {
                 <Thumbnail source={require('../../assets/images/user.png')} />
               </Left>
               <Body>
-                <Text>{item.username}</Text>
-                <Text note>Doing what you like will always keep you happy . .</Text>
+                <Text>{item.receiver_username}</Text>
+                <Text note>{item.message}</Text>
               </Body>
-              <Right>
-                <Text note>3:43 pm</Text>
-              </Right>
             </ListItem>
           )}
           />
