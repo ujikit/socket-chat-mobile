@@ -1,13 +1,7 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {
-  ActivityIndicator,
-  ScrollView,
-  TouchableOpacity,
+  AsyncStorage,
   StyleSheet,
-  FlatList,
-  Image,
-  TextInput,
-  Alert,
 } from 'react-native';
 import {
   Body,
@@ -37,10 +31,13 @@ import {connect, useDispatch} from 'react-redux';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat'
 
 // components
-import NoData from '../components/NoData'
+import NoData from '../components/NoData';
+// configs
+import API from '../configs/API';
 
 function ConversationScreen ({route, navigation, me_reducer}) {
   const dispatch = useDispatch()
+  let { receiver_username } = route.params;
 
   let [is_refresh_data, setIsRefreshData] = useState(false);
   let [messages, setMessages] = useState([
@@ -57,10 +54,53 @@ function ConversationScreen ({route, navigation, me_reducer}) {
   ]);
 
   useEffect(() => {
+    navigation.setOptions({ receiver_username })
+    _handleFetchConversation();
   }, [])
 
   _handleRefreshData = () => {
 
+  }
+
+  _handleFetchConversation = async () => {
+
+    let body = {
+      username: me_reducer.username,
+      receiver_username
+    }
+
+    API.conversation_messages(body)
+      .then(response => {
+        console.log('get_conversation_messages_success', response);
+
+        setMessages(() => {
+
+          let filteredArr2 = response.filter((v,i,a) => (v.receiver_username === receiver_username && v.sender_username === me_reducer.username) || (v.sender_username === receiver_username && v.receiver_username === me_reducer.username));
+
+          let chat = filteredArr2.sort(function (a, b) {
+            return a.time_message - b.time_message;
+          }).reverse();
+
+          let new_data = [];
+          for (var i = 0; i < chat.length; i++) {
+            new_data.push({
+              _id: chat[i].id,
+              text: chat[i].message,
+              createdAt: chat[i].time_message,
+              user: {
+                _id: chat[i].sender_username,
+                name: chat[i].sender_username
+              },
+            })
+          }
+
+          return [...new_data];
+        });
+      })
+      .catch(async error => {
+        console.log('get_conversation_messages_error', error);
+        console.log('get_conversation_messages_error', error.response);
+      });
   }
 
   const onSend = useCallback((messages = []) => {
@@ -72,14 +112,22 @@ function ConversationScreen ({route, navigation, me_reducer}) {
       placeholder="Ketik pesan.."
       messages={messages}
       onSend={messages => onSend(messages)}
+      renderAvatar={null}
       user={{
-        _id: me_reducer.id,
+        _id: me_reducer.username,
       }}
       renderBubble={props => {
         return (
           <Bubble
             {...props}
-            textStyle={{}}
+            textStyle={{
+              left: {
+                color: 'black'
+              },
+              right: {
+                color: 'white'
+              }
+            }}
             wrapperStyle={{
               left: {
                 backgroundColor: 'white',
@@ -92,16 +140,19 @@ function ConversationScreen ({route, navigation, me_reducer}) {
         );
       }}
       renderChatEmpty={() => (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', transform: [{ scaleY: -1 }]}}>
-          <NoData
-            image={require('../../assets/images/illustration/no_chat.png')}
-            size_image_width={220}
-            size_image_height={200}
-            line1={'Belum ada chat.'}
-            is_refresh_data={is_refresh_data}
-            _handleRefreshData={_handleRefreshData}
-          />
-        </View>
+        !messages.length ?
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', transform: [{ scaleY: -1 }]}}>
+            <NoData
+              image={require('../../assets/images/illustration/no_chat.png')}
+              size_image_width={220}
+              size_image_height={200}
+              line1={'Belum ada chat.'}
+              is_refresh_data={is_refresh_data}
+              _handleRefreshData={_handleRefreshData}
+              />
+          </View>
+        :
+          null
       )}
     />
   )

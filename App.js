@@ -73,9 +73,9 @@ function App() {
                   <Stack.Screen
                     name="Conversation"
                     component={Conversation}
-                    options={{
-                      title: 'Conversation'
-                    }}
+                    options={({ route }) => ({
+                      title: route.params.receiver_username 
+                    })}
                   />
                 </Stack.Navigator>
               </NavigationContainer>

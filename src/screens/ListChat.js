@@ -74,7 +74,9 @@ function ListChatScreen ({route, navigation}) {
           data={list_chat_data}
           keyExtractor = { (item, index) => index.toString() }
           renderItem={({ item, index }) => (
-            <ListItem key={index} avatar onPress={() => navigation.navigate('Conversation')}>
+            <ListItem key={index} avatar onPress={() => navigation.navigate('Conversation', {
+                receiver_username: item.receiver_username
+              })}>
               <Left>
                 <Thumbnail source={require('../../assets/images/user.png')} />
               </Left>

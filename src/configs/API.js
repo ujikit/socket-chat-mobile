@@ -67,4 +67,14 @@ export default {
       }
     })
   },
+  conversation_messages: (body) => {
+    console.log('conversation_messages_parameter: ', body);
+    return fetch(`/conversation-messages/${body.username}/${body.receiver_username}`, {
+      method: 'GET',
+      head: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+  },
 }
