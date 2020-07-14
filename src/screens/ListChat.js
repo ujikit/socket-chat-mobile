@@ -38,11 +38,16 @@ function ListChatScreen ({route, navigation}) {
         console.log('get_conversations_success', response);
 
         setListChatData(() => {
-          let filteredArr1 = response.filter(item => {
-            return item.receiver_username !== user_data.username
-          });
 
-          let filteredArr2 = filteredArr1.filter((v,i,a) => a.findIndex(t => (t.receiver_username === v.receiver_username)) === i)
+          // get latest user message in list chat
+          for (var i in response) {
+            if (response[i].receiver_username === user_data.username) {
+              response[i].receiver_username = response[i].sender_username;
+              response[i].sender_username = user_data.username;
+            }
+          }
+
+          let filteredArr2 = response.filter((v,i,a) => a.findIndex(t => (t.receiver_username === v.receiver_username)) === i)
 
           let chat = filteredArr2.sort(function (a, b) {
             return a.time_message - b.time_message;
