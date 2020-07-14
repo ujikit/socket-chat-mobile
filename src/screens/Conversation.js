@@ -34,6 +34,8 @@ import { GiftedChat, Bubble } from 'react-native-gifted-chat'
 import NoData from '../components/NoData';
 // configs
 import API from '../configs/API';
+// services
+import {socket} from '../services/SocketIO';
 
 function ConversationScreen ({route, navigation, me_reducer}) {
   const dispatch = useDispatch()
@@ -56,6 +58,37 @@ function ConversationScreen ({route, navigation, me_reducer}) {
   useEffect(() => {
     navigation.setOptions({ receiver_username })
     _handleFetchConversation();
+  }, [])
+
+  // handle socket event
+  useEffect(() => {
+    socket.on('private message', data => {
+
+      let {
+        id,
+        id_socket_target,
+        id_socket_sender,
+        username_sender,
+        message
+      } = data;
+
+      setMessages(oldArray => {
+        let data = [
+          {
+            _id: id,
+            text: message[0].text,
+            createdAt: message[0].createdAt,
+            user: {
+              _id: username_sender,
+              name: username_sender
+            }
+          },
+          ...oldArray
+        ]
+
+        return [...data]
+      })
+    })
   }, [])
 
   _handleRefreshData = () => {
@@ -103,8 +136,30 @@ function ConversationScreen ({route, navigation, me_reducer}) {
       });
   }
 
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+  const onSend = useCallback((message = []) => {
+    let body = {
+      username: receiver_username
+    }
+
+    API.show_user(body)
+    .then(async response => {
+      console.log('get_show_user_success', response);
+
+      let data = {
+        id_socket_target: response[0].id_socket,
+        id_socket_sender: me_reducer.id_socket,
+        username_sender: me_reducer.username,
+        message,
+      }
+
+      socket.emit('send message', data);
+
+      setMessages(previousMessages => GiftedChat.append(previousMessages, message))
+    })
+    .catch(async error => {
+      console.log('get_show_user_error', error);
+      console.log('get_show_user_error', error.response);
+    });
   }, [])
 
   return (

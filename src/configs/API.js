@@ -47,9 +47,9 @@ export default {
       body: body
     })
   },
-  users: () => {
-    console.log('users_parameter: ');
-    return fetch('/users', {
+  show_user: (body) => {
+    console.log('show_user_parameter: ', body);
+    return fetch(`/show-user/${body.username}`, {
       method: 'GET',
       head: {
         'Accept': 'application/json',
